@@ -1,0 +1,174 @@
+/* Slip-14 
+Q 1) Write a C program for the implementation of Floyd Warshall’s algorithm for finding all pairs shortest 
+path using adjacency cost matrix.                                                                                                                                                            
+       
+ #include<stdio.h>
+ int i,j,k,n;
+ void print(int a[20][20])
+ {
+ 	for(i=0;i<n;i++)
+ 	{
+ 		for(j=0;j<n;j++)
+ 		{
+ 			if(a[i][j]==999)
+ 			{
+ 				printf("%4s","INF");
+			 }
+			 else
+			 {
+			 	printf("%4d",a[i][j]);
+			 }
+		 }
+		 printf("\n");
+	 }
+ }
+ void floyd(int a[20][20])
+ {
+ 	for(k=0;k<n;k++)
+    {
+    	for(i=0;i<n;i++)
+    	{
+    		for(j=0;j<n;j++)
+    		{
+    			if(a[i][k]+a[k][j]<a[i][j])
+                 {
+                 	a[i][j]=a[i][k]+a[k][j];
+				 }
+			}
+		}
+       printf("\nd(%d):\n",k+1);
+	   print(a);
+	}	
+ }
+  int main()
+  {
+    int i,j,a[20][20];
+    printf("Enter no of nodes:");
+    scanf("%d",&n);
+    for(i=0;i<n;i++)
+    {
+    	for(j=0;j<n;j++)
+    	{
+     			scanf("%d",&a[i][j]);
+     	}
+	}
+	floyd(a);
+ }                                                                                                                                                  [10 Marks] 
+
+Q 2) Write a C program which uses Binary search tree library and displays nodes at each level, and total 
+levels in the tree.
+*/
+
+#include<stdio.h>
+#include<stdlib.h>
+#define MAX 20
+struct node
+{
+	int data;
+	struct node *left,*right;
+}*root;
+struct que
+  {
+  	int a[MAX];
+  	int front,rear;
+  }q;
+  void init()
+  {
+  	q.front=q.rear=-1;
+  }
+  int isempty()
+  {
+  	return q.front==q.rear;
+  }
+  int isfull()
+  {
+  	return q.rear==MAX-1;
+  }
+  int add(int key)
+  {
+  	return q.a[++q.rear]=key;
+  }
+  int rm()
+  {
+  	return q.a[++q.front];
+  }
+struct node *create(struct node *root)
+{
+	struct node *temp,*parent,*newnode;
+	int i,n;
+	printf("Enter Limit:");
+	scanf("%d",&n);
+	for(i=0;i<n;i++)
+    {
+    	newnode=(struct node *)malloc(sizeof(struct node));
+    	printf("Enter Data:");
+    	scanf("%d",&newnode->data);
+    	newnode->left=newnode->right=NULL;
+    	if(root==NULL)
+        {
+        	root=newnode;
+        	continue;
+		}
+		temp=root;
+		while(temp!=NULL)
+		{
+			parent=temp;
+			if(newnode->data<temp->data)
+			{
+				temp=temp->left;
+			}
+			else
+			{
+				temp=temp->right;
+			}
+		}
+		if(newnode->data<parent->data)
+		{
+			parent->left=newnode;
+		}
+		else
+		{
+			parent->right=newnode;
+		}
+	}
+  return root;	
+}
+void levelorder(struct node *root)
+{
+   struct node *temp,*M=0;
+   int level=0;
+   init();
+   add(root);
+   add(M);
+   while(!isempty())
+   {
+   	  temp=rm();
+      if(temp==M)
+	  {
+	     level++;
+		 if(!isempty())	
+		 {
+		 	add(M);
+		 	printf("\nLevel-%d:",level);
+		 }
+	  }
+	  else
+	  {
+	  	 printf("%d ",temp->data);
+	     if(temp->left!=NULL)
+		 {
+		    add(temp->left);	
+	     }	
+	     if(temp->right!=NULL)
+	     {
+	     	add(temp->right);
+		 }
+	  }	
+   }	
+} 
+void main()
+{
+   struct node *root=NULL;
+   root=create(root);
+   levelorder(root);
+}
