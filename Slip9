@@ -1,0 +1,167 @@
+ /*Slip-9
+Q 1) Write a C program that accepts the vertices and edges of a graph and store it as an adjacency matrix. 
+Implement function to traverse the graph using Depth First Search (DFS) traversal.                                                                       
+  
+  #include<stdio.h>
+  int i,j;
+  void dfs(int a[20][20],int n,int v)
+  {
+   	static int visit[20]={0};
+	  visit[v]=1;
+	  printf("V%d\t",v+1);
+	  
+	  for(j=0;j<n;j++)
+  	{
+  	   if(a[v][j]==1 && visit[j]==0)
+		 {
+		    visit[j]=1;
+			dfs(a,n,j); 	
+	     }	
+	}
+  }
+  int main()
+  {
+    int i,j,a[20][20],n;
+    printf("Enter no of nodes:");
+    scanf("%d",&n);
+    for(i=0;i<n;i++)
+    {
+    	for(j=0;j<n;j++)
+    	{
+    		a[i][j]=0;
+    		if(i!=j)
+    		{
+    			printf("Enter edge v(%d,%d):",i+1,j+1);
+    			scanf("%d",&a[i][j]);
+			}
+		}
+	}
+	printf("\nAdjecency Matrix\n");
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<n;j++)
+		{
+			printf("%d\t",a[i][j]);
+		}
+		printf("\n");
+	}
+   dfs(a,n,0);
+  } 
+
+
+ 
+Q 2) Implement a Binary search tree (BST) library (btree.h) with operations – create, insert, postorder. Write 
+a menu driven program that performs the above operations 
+ */                                                                                                  
+  
+#include<stdio.h>
+struct node 
+{
+	int data;
+	struct node *left,*right;
+}*root;
+struct node *create(struct node *root)
+{
+	struct node *temp,*newnode,*parent;
+	int i,n;
+	printf("Enter Limit:");
+	scanf("%d",&n);
+	for(i=0;i<n;i++)
+	{
+		newnode=(struct node *)malloc(sizeof(struct node));
+		printf("Enter Value:");
+		scanf("%d",&newnode->data);
+		newnode->left=newnode->right=NULL;
+		if(root==NULL)
+          {
+            root=newnode;
+			continue; 	
+	      }		
+	      temp=root;
+	      while(temp!=NULL)
+	      {
+	      	parent=temp;
+	      	if(newnode->data<temp->data)
+		    {
+		    	temp=temp->left;
+			}
+			else
+			{
+				temp=temp->right;
+			}
+		  }
+		  if(newnode->data<parent->data)
+		    {
+		    	parent->left=newnode;
+			}
+			else
+			{
+				parent->right=newnode;
+			}
+	}
+	return root;
+}
+void postorder(struct node *root)
+{
+	struct node *temp=root;
+	if(temp!=NULL)
+	{
+		postorder(temp->left);
+		postorder(temp->right);
+	    printf("%d\t",temp->data);
+	}
+}
+struct node *insert(struct node *root,int num)
+{
+	struct node *temp=root,*parent,*newnode;
+		newnode=(struct node *)malloc(sizeof(struct node));
+	 	newnode->data=num;
+		 newnode->left=newnode->right=NULL;
+		if(root==NULL)
+          {
+            root=newnode; 	
+	      }		
+	      temp=root;
+	      while(temp!=NULL)
+	      {
+	      	parent=temp;
+	      	if(num<temp->data)
+		    {
+		    	temp=temp->left;
+			}
+			else
+			{
+				temp=temp->right;
+			}
+		  }
+		  if(num<parent->data)
+		    {
+		    	parent->left=newnode;
+			}
+			else
+			{
+				parent->right=newnode;
+			}
+}
+int main()
+{
+   struct node *root=NULL;
+   int ch,num;	
+    do
+    {
+          printf("\nMENU\n1.Create\n2.Insert\n3.Postorder\n4.exit\nEnter your choice:");    	
+	      scanf("%d",&ch);
+	      switch(ch)
+	      {
+	      	case 1 : root=create(root); break;
+	      	case 2 : printf("Enter Value to insert :");
+	      	         scanf("%d",&num);
+					 insert(root,num);
+					 break;
+            case 3 : printf("\nPostorder display\n");
+			         postorder(root);
+			         break;
+			case 4 : printf("exit"); break;		 					     
+		  }
+	}while(ch<4);
+}  
