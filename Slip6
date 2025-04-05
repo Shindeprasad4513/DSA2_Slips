@@ -1,0 +1,94 @@
+/* Slip-6  
+Q 1) Write a C program that accepts the vertices and edges of a graph and stores it as an adjacency matrix. 
+Display the adjacency matrix.                                                                                                 [10 Marks] 
+#include<stdio.h>
+  int main()
+  {
+    int i,j,a[20][20],n;
+    printf("Enter no of nodes:");
+    scanf("%d",&n);
+    for(i=0;i<n;i++)
+    {
+    	for(j=0;j<n;j++)
+    	{
+    		a[i][j]=0;
+    		if(i!=j)
+    		{
+    			printf("Enter edge v(%d,%d):",i+1,j+1);
+    			scanf("%d",&a[i][j]);
+			}
+		}
+	}
+	printf("\nAdjecency Matrix\n");
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<n;j++)
+		{
+			printf("%d\t",a[i][j]);
+		}
+		printf("\n");
+	}
+  }
+
+  
+Q 2) Write a C program for the implementation of Dijkstra’s shortest path algorithm for finding shortest path 
+from a given source vertex using adjacency cost matrix. 
+*/
+#include<stdio.h>
+   	int i,j,n,k;
+  void dij(int a[20][20])
+  {
+    int d[20]={0},visit[20],v,min;
+    i=0;
+    visit[0]=1;
+    d[0]=0;
+    for(j=1;j<n;j++)
+    {
+    	d[j]=a[i][j];
+	}
+	for(j=0;j<n;j++)
+    {
+    	printf("%d\t",d[j]);
+	}
+	k=1;
+	while(k<n-1)
+	{
+		min=999;
+		for(j=1;j<n;j++)
+		{
+			if(d[j]<min && visit[j]==0)
+			{
+				min=d[j];
+				v=j;
+			}
+		}
+		visit[v]=1;
+		for(j=1;j<n;j++)
+		{
+			if(d[v]+a[v][j]<d[j])
+			{
+				d[j]=d[v]+a[v][j];
+			}
+		}
+		k++;
+	}
+	printf("\nDijkstras Shortest path\n");
+	for(j=0;j<n;j++)
+	{
+		printf("%d\t",d[j]);
+	}
+  }
+  int main()
+  {
+    int i,j,a[20][20];
+    printf("Enter no of nodes:");
+    scanf("%d",&n);
+    for(i=0;i<n;i++)
+    {
+    	for(j=0;j<n;j++)
+    	{
+     			scanf("%d",&a[i][j]);
+     	}
+	}
+	dij(a);
+ }
