@@ -1,0 +1,135 @@
+/* Slip-22
+Q 1) Write a C program of implementation of topological sort. 
+
+ #include<stdio.h> 
+ #define MAX 10
+ struct stack 
+ {
+ 	int a[MAX];
+ 	int top;
+ }s;
+ void init()
+ {
+ 	s.top=-1;
+ }
+ int isempty()
+ {
+ 	return s.top==-1;
+ }
+ int isfull()
+ {
+ 	s.top==MAX-1;
+ }
+ int push(int key)
+ {
+ 	return s.a[++s.top]=key;
+ }
+ int pop()
+ {
+ 	return s.a[s.top--];
+ }
+ void topo(int a[10][10],int n)
+ {
+ 	int i,j,visit[20]={0},ind[20]={0};
+ 	for(i=0;i<n;i++)
+ 	{
+ 	for(j=0;j<n;j++)
+ 	 { 
+	   ind[i]=ind[i]+a[j][i];
+	 }
+	 }
+	 
+	 while(1)
+	 {
+	 	for(i=0;i<n;i++)
+	 	{
+	 		if(ind[i]==0 || visit[i]==0)
+	 		{
+	             push(i);
+				 visit[i]=1;
+				 printf("V%d\t",i+1);			
+			 }
+		 }
+		 if(isempty())
+		 {
+		 	
+		 }
+		 int v=pop();
+		 for(j=0;j<n;j++)
+		 {
+		 	ind[j]=ind[j]-1;
+		 }
+	 }
+ }
+ int main()
+ {
+ 	int a[20][20],i,j,n;
+ 	printf("Entet no of nodes:");
+ 	scanf("%d",&n);
+ 	for(i=0;i<n;i++)
+ 	{
+ 		for(j=0;j<n;j++)
+	    {
+	    	a[i][j]=0;
+	    	if(i!=j)
+	    	{
+	    		printf("Enter edge c(%d,%d):",i+1,j+1);
+	    		scanf("%d",&a[i][j]);
+			}
+		}
+	 }
+	 printf("\nTopological sort:-\n");
+	 topo(a,n);
+ }           
+
+*/
+
+/*
+Q 2) Write a C program that accepts the vertices and edges of a graph and store it as an adjacency matrix. 
+Implement functions to print indegree, outdegree and total degree of all vertices of graph.                    
+*/
+
+#include<stdio.h>
+  void inout(int a[20][20],int n)
+  {
+  	int sumin=0,sumout=0,t,i,j;
+  	printf("\nVertex\tSumin\tSumOut\tTotal\n");
+	  for(i=0;i<n;i++)
+  	{
+  		sumin=0,sumout=0;
+  	   for(j=0;j<n;j++)	
+  	   {
+  	      sumin=sumin+a[i][j];	
+	      sumout=sumout+a[j][i];
+	   }
+	   printf("v%d\t%d\t%d\t%d\n",i+1,sumin,sumout,(sumin+sumout));
+	}
+  }
+  int main()
+  {
+    int i,j,a[20][20],n;
+    printf("Enter no of nodes:");
+    scanf("%d",&n);
+    for(i=0;i<n;i++)
+    {
+    	for(j=0;j<n;j++)
+    	{
+    		a[i][j]=0;
+    		if(i!=j)
+    		{
+    			printf("Enter edge v(%d,%d):",i+1,j+1);
+    			scanf("%d",&a[i][j]);
+			}
+		}
+	}
+	printf("\nAdjecency Matrix\n");
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<n;j++)
+		{
+			printf("%d\t",a[i][j]);
+		}
+		printf("\n");
+	}
+    inout(a,n);
+  }
