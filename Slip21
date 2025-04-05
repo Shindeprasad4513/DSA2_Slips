@@ -1,0 +1,111 @@
+/*Slip-21
+Q 1) Write a C program that accepts the vertices and edges of a graph and store it as an adjacency matrix. 
+Implement function to traverse the graph using Depth First Search (DFS) traversal.                                               
+  
+  #include<stdio.h>
+  int i,j;
+  void dfs(int a[20][20],int n,int v)
+  {
+   	static int visit[20]={0};
+	  visit[v]=1;
+	  printf("V%d\t",v+1);
+	  
+	  for(j=0;j<n;j++)
+  	{
+  	   if(a[v][j]==1 && visit[j]==0)
+		 {
+		    visit[j]=1;
+			dfs(a,n,j); 	
+	     }	
+	}
+  }
+  int main()
+  {
+    int i,j,a[20][20],n;
+    printf("Enter no of nodes:");
+    scanf("%d",&n);
+    for(i=0;i<n;i++)
+    {
+    	for(j=0;j<n;j++)
+    	{
+    		a[i][j]=0;
+    		if(i!=j)
+    		{
+    			printf("Enter edge v(%d,%d):",i+1,j+1);
+    			scanf("%d",&a[i][j]);
+			}
+		}
+	}
+	printf("\nAdjecency Matrix\n");
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<n;j++)
+		{
+			printf("%d\t",a[i][j]);
+		}
+		printf("\n");
+	}
+	
+	printf("DFS\n");
+   dfs(a,n,0);
+  } 
+
+
+*/
+/*
+ Q 2) Write a C program for the Implementation of Prim’s Minimum spanning tree algorithm
+*/
+
+#include<stdio.h>
+void prims(int a[20][20],int n)
+{
+	int e,i,j,u,v,min,mincost=0,visit[20]={0};
+	visit[0]=1;
+	for(e=0;e<=n-1;e++)
+	{
+		for(i=0,min=999;i<n;i++)
+		{
+			for(j=0;j<n;j++)
+			{
+				if(a[i][j]<min)
+                {
+                    if(visit[i]!=0)
+                    {
+					
+		            	min=a[i][j];
+	                	u=i;
+	                	v=j;
+				   }
+			   }  
+			}
+		}
+	  a[u][v]=a[v][u]=999;
+      if(visit[u]==0 || visit[v]==0)
+		{
+			printf("\nEdge v%d:(%d,%d):%d",e+1,u+1,v+1,min);
+	       mincost+=min;
+	       visit[v]=1;
+		}
+	}
+	printf("\nMincost=%d",mincost);
+	
+}
+int main()
+{
+	
+    int i,j,a[20][20],n;
+    printf("Enter no of nodes:");
+    scanf("%d",&n);
+    for(i=0;i<n;i++)
+    {
+    	for(j=0;j<n;j++)
+    	{ 
+    			scanf("%d",&a[i][j]);
+			if(a[i][j]==0)
+			{
+				a[i][j]=999;
+			}
+		}
+	}
+	prims(a,n);
+}
