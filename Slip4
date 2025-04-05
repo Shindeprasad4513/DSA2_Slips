@@ -1,0 +1,143 @@
+  /* Slip-4
+  Q 1) Write a C program that accepts the vertices and edges of a graph. Derive the DFS traversal      
+recursively. 
+
+  #include<stdio.h>
+  int i,j,n,a[20][20];
+  void dfs(int a[20][20],int n,int i)
+  {
+  	static int visit[20]={0};
+  	visit[i]=1;
+  	printf("V%d\t",i);
+	  for(j=0;j<n;j++)
+  	{
+  		if(a[i][j]==1 && visit[j]==0)
+  		{
+  		   visit[j]=1;
+			 dfs(a,n,j);	
+		}
+	  }
+  }
+  void main()
+  {
+  	int i,j,a[20][20],n;
+    printf("Enter no of nodes:");
+    scanf("%d",&n);
+    for(i=0;i<n;i++)
+    {
+    	for(j=0;j<n;j++)
+    	{
+    		a[i][j]=0;
+    		if(i!=j)
+    		{
+    			printf("Enter edge v(%d,%d):",i+1,j+1);
+    			scanf("%d",&a[i][j]);
+			}
+		}
+	}
+	printf("\nDFS Traversal is\n");
+	dfs(a,n,0);
+  }
+ 
+ Q 2) Write a program which uses binary search tree library and counts the total nodes and total leaf nodes   in 
+the tree.  
+              int countLeaf(T) - returns the total number of leaf nodes from BST. 
+              int counttotalnode(T) – returns the total number of nodes from BST.
+ */
+ 
+#include<stdio.h>
+#include<stdlib.h>
+struct node
+{
+	int data;
+	struct node *left,*right;
+}*root;
+
+struct node *create(struct node *root)
+{
+	struct node *temp,*parent,*newnode;
+	int i,n;
+	printf("Enter Limit:");
+	scanf("%d",&n);
+	for(i=0;i<n;i++)
+    {
+    	newnode=(struct node *)malloc(sizeof(struct node));
+    	printf("Enter Data:");
+    	scanf("%d",&newnode->data);
+    	newnode->left=newnode->right=NULL;
+    	if(root==NULL)
+        {
+        	root=newnode;
+        	continue;
+		}
+		temp=root;
+		while(temp!=NULL)
+		{
+			parent=temp;
+			if(newnode->data<temp->data)
+			{
+				temp=temp->left;
+			}
+			else
+			{
+				temp=temp->right;
+			}
+		}
+		if(newnode->data<parent->data)
+		{
+			parent->left=newnode;
+		}
+		else
+		{
+			parent->right=newnode;
+		}
+	}
+  return root;	
+}
+int countnode(struct node *root)
+{
+ 
+	struct node *temp=root;
+   	static int cnt=0;
+	if(temp!=NULL)
+	{
+	    cnt++;
+		countnode(temp->left);
+		countnode(temp->right);	
+	}
+	return cnt;
+ } 
+int countleaf(struct node *root)
+{
+ 	struct node *temp=root;
+   	static int c=0;
+
+	if(temp!=NULL)
+	{
+		if(temp->left==NULL && temp->right==NULL)
+	    {
+	       c++;	
+		} 
+		countnode(temp->left);
+		countnode(temp->right);	
+	}
+	return c;
+ } 
+int main()
+{
+	struct node *root=NULL;
+    int ch,num;
+    do
+    {
+    	printf("\nMENU\n1.Create\n2.CountTotal\n3.Count Leaf\n4.Exit\n");
+    	printf("Enter your Choice:");
+    	scanf("%d",&ch);
+    	switch(ch)
+    	{
+    		case 1 : root=create(root); break;
+    		case 2 :  printf("\nTotal nodes=%d",countnode(root)); break;
+    		case 3 :  printf("\nLeaf nodes=%d",countleaf(root)); break;
+			case 4 : printf("Exit"); break;		     
+		}
+	}while(ch<4);
+}
