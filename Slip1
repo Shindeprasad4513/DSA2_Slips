@@ -1,0 +1,151 @@
+ /* Slip-1
+ Q 1) Write a C program that accepts the vertices and edges of a graph and stores it as an adjacency    matrix. 
+Display the adjacency matrix.                                                                                                                  
+  
+  #include<stdio.h>
+  int main()
+  {
+    int i,j,a[20][20],n;
+    printf("Enter no of nodes:");
+    scanf("%d",&n);
+    for(i=0;i<n;i++)
+    {
+    	for(j=0;j<n;j++)
+    	{
+    		a[i][j]=0;
+    		if(i!=j)
+    		{
+    			printf("Enter edge v(%d,%d):",i+1,j+1);
+    			scanf("%d",&a[i][j]);
+			}
+		}
+	}
+	printf("\nAdjecency Matrix\n");
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<n;j++)
+		{
+			printf("%d\t",a[i][j]);
+		}
+		printf("\n");
+	}
+  }
+*/
+  /*                                                                                                                                             [10 Marks] 
+  Q 2) Implement a Binary search tree (BST) library (btree.h) with operations – create, insert, preorder.        
+Write a menu driven program that performs the above operations.        
+*/
+
+#include<stdio.h>
+#include<stdlib.h>
+struct node
+{
+	int data;
+	struct node *left,*right;
+}*root;
+
+struct node *create(struct node *root)
+{
+	struct node *temp,*parent,*newnode;
+	int i,n;
+	printf("Enter Limit:");
+	scanf("%d",&n);
+	for(i=0;i<n;i++)
+    {
+    	newnode=(struct node *)malloc(sizeof(struct node));
+    	printf("Enter Data:");
+    	scanf("%d",&newnode->data);
+    	newnode->left=newnode->right=NULL;
+    	if(root==NULL)
+        {
+        	root=newnode;
+        	continue;
+		}
+		temp=root;
+		while(temp!=NULL)
+		{
+			parent=temp;
+			if(newnode->data<temp->data)
+			{
+				temp=temp->left;
+			}
+			else
+			{
+				temp=temp->right;
+			}
+		}
+		if(newnode->data<parent->data)
+		{
+			parent->left=newnode;
+		}
+		else
+		{
+			parent->right=newnode;
+		}
+	}
+  return root;	
+}
+void insert( struct node *root,int num)
+{
+	struct node *parent,*newnode,*temp=root;
+	newnode=(struct node *)malloc(sizeof(struct node));
+	newnode->data=num;
+	newnode->left=newnode->right=NULL;
+	if(root==NULL)
+	{
+	   root=newnode;
+	}
+	while(temp!=NULL)
+	{
+		parent=temp;
+		if(num<temp->data)
+		{
+			temp=temp->left;
+		}
+		else
+		{
+			temp=temp->right;
+		}
+	}
+	if(num<parent->data)
+	{
+		parent->left=newnode;
+	}
+	else
+	{
+		parent->right=newnode;
+	}
+}
+void preorder(struct node *root)
+{
+	struct node *temp=root;
+	if(temp!=NULL)
+	{
+		printf("%d\t",temp->data);
+		preorder(temp->left);
+		preorder(temp->right);
+	}
+}
+void main()
+{
+	struct node *root=NULL;
+    int ch,num;
+    do
+    {
+    	printf("\nMENU\n1.Create\n2.Insert\n3.Preorder Disp\n34.Exit\n");
+    	printf("Enter your Choice:");
+    	scanf("%d",&ch);
+    	switch(ch)
+    	{
+    		case 1 : root=create(root); break;
+    		case 2 : printf("Enter Value To Insert:");
+    		         scanf("%d",&num);
+    		         insert(root,num);
+    		         break;
+    		case 3 : printf("\nPreorder Display\n");
+			          preorder(root);
+					  break;      
+			case 4 : printf("Exit"); break;		     
+		}
+	}while(ch<4);
+}
