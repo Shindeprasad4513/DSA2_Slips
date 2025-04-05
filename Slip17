@@ -1,0 +1,178 @@
+/*Slip-17
+ 
+Q 1) Write a menu driven program to implement hash table using array (insert,display). Use any of the above
+mentioned hash functions. In case of collision apply linear probing. 
+ 
+    #include<stdio.h>
+    int hf(int key,int i)
+    {
+    	return (key%10+i)%10;
+	}
+	void insert(int a[10],int key)
+	{
+		int i,ind;
+		for(i=0;i<10;i++)
+		{
+			ind=hf(key,i);
+			if(a[ind]==-1)
+			{
+				a[ind]=key;
+				return;
+			}
+		}
+		printf("%d is not found",key);
+	}
+	void disp(int a[10])
+	{
+		int i;
+		for(i=0;i<10;i++)
+		{
+			printf("\n%d[%d]",i,a[i]);
+		}
+	
+	}
+    int main()
+    {
+    	int a[10],i,ch,key;
+    	for(i=0;i<10;i++)
+	    {
+	    	a[i]=-1;
+		}
+        do
+		{
+			printf("\nMENU\n1.Insert\n2.Disp\n3.Exit\nEnter your choice:");
+			scanf("%d",&ch);
+			switch(ch)
+			{
+				case 1 : printf("Enter key to insert:");
+				         scanf("%d",&key);
+				         insert(a,key);
+				         break;
+				case 2 : disp(a);
+				         break;
+			    case 3  : printf("Exit"); break;			          
+						 
+			}
+	    }while(ch<3);		
+	}
+
+*/ 
+ 
+ /* 
+Q 2) Write a C program which uses Binary search tree library and displays nodes at each level, and total levels 
+in the tree. 
+*/
+
+#include<stdio.h>
+#include<stdlib.h>
+#define MAX 20
+struct node
+{
+	int data;
+	struct node *left,*right;
+}*root;
+struct que
+  {
+  	int a[MAX];
+  	int front,rear;
+  }q;
+  void init()
+  {
+  	q.front=q.rear=-1;
+  }
+  int isempty()
+  {
+  	return q.front==q.rear;
+  }
+  int isfull()
+  {
+  	return q.rear==MAX-1;
+  }
+  int add(int key)
+  {
+  	return q.a[++q.rear]=key;
+  }
+  int rm()
+  {
+  	return q.a[++q.front];
+  }
+struct node *create(struct node *root)
+{
+	struct node *temp,*parent,*newnode;
+	int i,n;
+	printf("Enter Limit:");
+	scanf("%d",&n);
+	for(i=0;i<n;i++)
+    {
+    	newnode=(struct node *)malloc(sizeof(struct node));
+    	printf("Enter Data:");
+    	scanf("%d",&newnode->data);
+    	newnode->left=newnode->right=NULL;
+    	if(root==NULL)
+        {
+        	root=newnode;
+        	continue;
+		}
+		temp=root;
+		while(temp!=NULL)
+		{
+			parent=temp;
+			if(newnode->data<temp->data)
+			{
+				temp=temp->left;
+			}
+			else
+			{
+				temp=temp->right;
+			}
+		}
+		if(newnode->data<parent->data)
+		{
+			parent->left=newnode;
+		}
+		else
+		{
+			parent->right=newnode;
+		}
+	}
+  return root;	
+}
+void levelorder(struct node *root)
+{
+   struct node *temp,*M=0;
+   int level=0;
+   init();
+   add(root);
+   add(M);
+   while(!isempty())
+   {
+   	  temp=rm();
+      if(temp==M)
+	  {
+	     level++;
+		 if(!isempty())	
+		 {
+		 	add(M);
+		 	printf("\nLevel-%d:",level);
+		 }
+	  }
+	  else
+	  {
+	  	 printf("%d ",temp->data);
+	     if(temp->left!=NULL)
+		 {
+		    add(temp->left);	
+	     }	
+	     if(temp->right!=NULL)
+	     {
+	     	add(temp->right);
+		 }
+	  }	
+   }	
+} 
+void main()
+{
+   struct node *root=NULL;
+   root=create(root);
+   levelorder(root);
+}
