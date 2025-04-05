@@ -1,0 +1,106 @@
+/*Slip-12
+Q 1) Write C program to implement hash table using array insert and display In case of collision apply linear 
+probabing.                                                                                                                       [10 Marks] 
+ 
+  #include<stdio.h>
+    int hf(int key,int i)
+    {
+    	return (key%10+i)%10;
+	}
+	void insert(int a[10],int key)
+	{
+		int i,ind;
+		for(i=0;i<10;i++)
+		{
+			ind=hf(key,i);
+			if(a[ind]==-1)
+			{
+				a[ind]=key;
+				return;
+			}
+		}
+		printf("%d is not found",key);
+	}
+	void disp(int a[10])
+	{
+		int i;
+		for(i=0;i<10;i++)
+		{
+			printf("\n%d[%d]",i,a[i]);
+		}
+	
+	}
+    int main()
+    {
+    	int a[10],i,ch,key;
+    	for(i=0;i<10;i++)
+	    {
+	    	a[i]=-1;
+		}
+        do
+		{
+			printf("\nMENU\n1.Insert\n2.Disp\n3.Exit\nEnter your choice:");
+			scanf("%d",&ch);
+			switch(ch)
+			{
+				case 1 : printf("Enter key to insert:");
+				         scanf("%d",&key);
+				         insert(a,key);
+				         break;
+				case 2 : disp(a);
+				         break;
+			    case 3  : printf("Exit"); break;			          
+						 
+			}
+	    }while(ch<3);		
+	}
+ */
+ /*
+Q 2) Write a C program that accepts the vertices and edges of a graph and store it as an adjacency matrix. 
+Implement functions to print indegree, outdegree and total degree of all vertices of graph
+*/
+
+#include<stdio.h>
+  void inout(int a[20][20],int n)
+  {
+  	int sumin=0,sumout=0,t,i,j;
+  	printf("\nVertex\tSumin\tSumOut\tTotal\n");
+	  for(i=0;i<n;i++)
+  	{
+  		sumin=0,sumout=0;
+  	   for(j=0;j<n;j++)	
+  	   {
+  	      sumin=sumin+a[i][j];	
+	      sumout=sumout+a[j][i];
+	   }
+	   printf("v%d\t%d\t%d\t%d\n",i+1,sumin,sumout,(sumin+sumout));
+	}
+  }
+  int main()
+  {
+    int i,j,a[20][20],n;
+    printf("Enter no of nodes:");
+    scanf("%d",&n);
+    for(i=0;i<n;i++)
+    {
+    	for(j=0;j<n;j++)
+    	{
+    		a[i][j]=0;
+    		if(i!=j)
+    		{
+    			printf("Enter edge v(%d,%d):",i+1,j+1);
+    			scanf("%d",&a[i][j]);
+			}
+		}
+	}
+	printf("\nAdjecency Matrix\n");
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<n;j++)
+		{
+			printf("%d\t",a[i][j]);
+		}
+		printf("\n");
+	}
+    inout(a,n);
+  }
