@@ -1,0 +1,118 @@
+/*Slip-15
+   Q 1)   Write C program to implement hash table using array insert and display In case of collision apply  
+    Linear probabing.                                                                                                                             [10 Marks] 
+    
+  #include<stdio.h>
+    int hf(int key,int i)
+    {
+    	return (key%10+i)%10;
+	}
+	void insert(int a[10],int key)
+	{
+		int i,ind;
+		for(i=0;i<10;i++)
+		{
+			ind=hf(key,i);
+			if(a[ind]==-1)
+			{
+				a[ind]=key;
+				return;
+			}
+		}
+		printf("%d is not found",key);
+	}
+	void disp(int a[10])
+	{
+		int i;
+		for(i=0;i<10;i++)
+		{
+			printf("\n%d[%d]",i,a[i]);
+		}
+	
+	}
+    int main()
+    {
+    	int a[10],i,ch,key;
+    	for(i=0;i<10;i++)
+	    {
+	    	a[i]=-1;
+		}
+        do
+		{
+			printf("\nMENU\n1.Insert\n2.Disp\n3.Exit\nEnter your choice:");
+			scanf("%d",&ch);
+			switch(ch)
+			{
+				case 1 : printf("Enter key to insert:");
+				         scanf("%d",&key);
+				         insert(a,key);
+				         break;
+				case 2 : disp(a);
+				         break;
+			    case 3  : printf("Exit"); break;			          
+						 
+			}
+	    }while(ch<3);		
+	}
+ 
+ Q 2) Write a C program for the implementation of Dijkstra’s shortest path algorithm for finding shortest path from a 
+given source vertex using adjacency cost matrix.                                                                                                                                                    
+*/
+#include<stdio.h>
+   	int i,j,n,k;
+  void dij(int a[20][20])
+  {
+    int d[20]={0},visit[20],v,min;
+    i=0;
+    visit[0]=1;
+    d[0]=0;
+    for(j=1;j<n;j++)
+    {
+    	d[j]=a[i][j];
+	}
+	for(j=0;j<n;j++)
+    {
+    	printf("%d\t",d[j]);
+	}
+	k=1;
+	while(k<n-1)
+	{
+		min=999;
+		for(j=1;j<n;j++)
+		{
+			if(d[j]<min && visit[j]==0)
+			{
+				min=d[j];
+				v=j;
+			}
+		}
+		visit[v]=1;
+		for(j=1;j<n;j++)
+		{
+			if(d[v]+a[v][j]<d[j])
+			{
+				d[j]=d[v]+a[v][j];
+			}
+		}
+		k++;
+	}
+	printf("\nDijkstras Shortest path\n");
+	for(j=0;j<n;j++)
+	{
+		printf("%d\t",d[j]);
+	}
+  }
+  int main()
+  {
+    int i,j,a[20][20];
+    printf("Enter no of nodes:");
+    scanf("%d",&n);
+    for(i=0;i<n;i++)
+    {
+    	for(j=0;j<n;j++)
+    	{
+     			scanf("%d",&a[i][j]);
+     	}
+	}
+	dij(a);
+ }
