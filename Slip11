@@ -1,0 +1,145 @@
+/*Slip-11
+Q 1) Write a C program for the implementation of Floyd Warshall’s algorithm for finding all pairs shortest 
+path using adjacency cost matrix.                                                                                    [10 Marks] 
+ 
+ #include<stdio.h>
+ int i,j,k,n;
+ void print(int a[20][20])
+ {
+ 	for(i=0;i<n;i++)
+ 	{
+ 		for(j=0;j<n;j++)
+ 		{
+ 			if(a[i][j]==999)
+ 			{
+ 				printf("%4s","INF");
+			 }
+			 else
+			 {
+			 	printf("%4d",a[i][j]);
+			 }
+		 }
+		 printf("\n");
+	 }
+ }
+ void floyd(int a[20][20])
+ {
+ 	for(k=0;k<n;k++)
+    {
+    	for(i=0;i<n;i++)
+    	{
+    		for(j=0;j<n;j++)
+    		{
+    			if(a[i][k]+a[k][j]<a[i][j])
+                 {
+                 	a[i][j]=a[i][k]+a[k][j];
+				 }
+			}
+		}
+       printf("\nd(%d):\n",k+1);
+	   print(a);
+	}	
+ }
+  int main()
+  {
+    int i,j,a[20][20];
+    printf("Enter no of nodes:");
+    scanf("%d",&n);
+    for(i=0;i<n;i++)
+    {
+    	for(j=0;j<n;j++)
+    	{
+     			scanf("%d",&a[i][j]);
+     	}
+	}
+	floyd(a);
+ }
+*/ 
+ /*
+Q 2) Write a C program that accepts the vertices and edges of a graph. Create adjacency list and display the 
+adjacency list.
+*/
+
+#include<stdio.h>
+#include<stdlib.h>
+ struct node
+ {
+    int data;
+    struct node *next;
+ };
+ struct node *head[20];
+  void create(int a[20][20],int n)
+  {
+  	int i,j;
+  	struct node *temp,*newnode;
+  	for(i=0;i<n;i++)
+  	{
+  		head[i]=NULL;
+  		for(j=0;j<n;j++)
+  		{
+  	      if(a[i][j]==1)
+			{
+			  
+			   newnode=(struct node *)malloc(sizeof(struct node));	
+			   newnode->data=j+1;
+			   newnode->next=NULL;
+			   if(head[i]==NULL)
+			   {
+			   	head[i]=temp=newnode;
+			   }
+              else
+			   {
+				   temp->next=newnode;
+				   temp=newnode;
+		       }
+			}
+					
+	    }
+	  }
+  }
+  void disp(int n)
+  {
+  	int i;
+  	struct node *temp;
+  	printf("\nadjecency List\n");
+  	for(i=0;i<n;i++)
+    {
+    	printf("v%d-->\t",i+1);
+    	temp=head[i];
+		while(temp!=NULL)
+    	{
+    		printf("%d-->\t",temp->data);
+		    temp=temp->next;
+		}
+		printf("NULL\n");
+	}
+  }
+  int main()
+  {
+    int i,j,a[20][20],n;
+    printf("Enter no of nodes:");
+    scanf("%d",&n);
+    for(i=0;i<n;i++)
+    {
+    	for(j=0;j<n;j++)
+    	{
+    		a[i][j]=0;
+    		if(i!=j)
+    		{
+    			printf("Enter edge v(%d,%d):",i+1,j+1);
+    			scanf("%d",&a[i][j]);
+			}
+		}
+	}
+	printf("\nAdjecency Matrix\n");
+	for(i=0;i<n;i++)
+	{
+		for(j=0;j<n;j++)
+		{
+			printf("%d\t",a[i][j]);
+		}
+		printf("\n");
+	}
+   create(a,n);
+   disp(n);
+  }
